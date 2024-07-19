@@ -1,40 +1,35 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-
-const lightbox = new SimpleLightbox('.gallery a', {
-  captions: true,
-  captionsData: 'alt',
-  captionDelay: 250,
-});
-
-const renderImages = (arrImgs, gallery) => {
-  const HTMLElement = arrImgs.hits
-    .map(
-      ({
-        largeImageURL,
-        webformatURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) =>
-        `<li class="gallery-item">
+export function renderPictures(hits) {
+    return hits.map(({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => `
+    <li class="gallery-card">
         <a class="gallery-link" href="${largeImageURL}">
-          <img src="${webformatURL}" alt="${tags}" />
+          <img
+            class="gallery-image"
+            src="${webformatURL}" 
+            alt="${tags}" 
+            width="360"
+            height="152" 
+          />
         </a>
-        <div class="description">
-          <p>Likes <span class="desc-span">${likes}</span></p>
-          <p>Views <span class="desc-span">${views}</span></p>
-          <p>Comments <span class="desc-span">${comments}</span></p>
-          <p>Downloads <span class="desc-span">${downloads}</span></p>
+        <div class="discribe-box">
+          <ul class="discribe-list">
+            <li class="discribe-item">
+              <h2 class="discribe-title">Likes</h2>
+              <p class="discribe-text">${likes}</p>
+            </li>
+            <li class="discribe-item">
+              <h2 class="discribe-title">Views</h2>
+              <p class="discribe-text">${views}</p>
+            </li>
+            <li class="discribe-item">
+              <h2 class="discribe-title">Comments</h2>
+              <p class="discribe-text">${comments}</p>
+            </li>
+            <li class="discribe-item">
+              <h2 class="discribe-title">Downloads</h2>
+              <p class="discribe-text">${downloads}</p>
+            </li>
+          </ul>
         </div>
-      </li>`
-    )
-    .join('');
-
-  gallery.insertAdjacentHTML('beforeend', HTMLElement);
-  lightbox.refresh();
-};
-
-export default renderImages;
+      </li>
+    `).join("");
+}
